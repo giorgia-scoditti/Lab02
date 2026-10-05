@@ -3,18 +3,18 @@ def carica_da_file(file_path):
     try:
         file = open(file_path, "r", encoding="utf-8")
         file.readline()
-        album = {} # L'anno è la chiave.
-        anni = []
-        tt_dati = []
+        album = {} # L'anno è la chiave, mentre la lista delle foto di quell'anno è il valore.
         for riga in file:
             dati = riga.strip().split(",")
             codice = dati[0]
             titolo = dati[1]
             autore = dati[2]
-            mese = dati[3]
-            anno = dati[4]
+            mese = int(dati[3])
+            anno = int(dati[4])
+            foto = (codice, titolo, autore, mese, anno)
             if anno not in album:
                 album[anno] = []
+            album[anno].append(foto)
         file.close()
         return album
     except FileNotFoundError:
@@ -23,17 +23,39 @@ def carica_da_file(file_path):
 
 def aggiungi_foto(album, codice, titolo, autore, mese, anno, file_path):
     """Aggiunge una foto all'album, creando l'anno al volo se non è ancora presente"""
-    # TODO
+    if mese < 1 or mese > 12:
+        return None
+    for anno_album, foto_anno in album.items():
+        for foto in foto_anno:
+            if foto[0] == codice:
+                return None
+    foto = (codice, titolo, autore, mese, anno)
+    if anno not in album:
+        album[anno] = []
+    album[anno].append(foto)
+    try:
+        file = open(file_path, "a", encoding="utf-8")
+        file.write(f"{codice}, {titolo}, {autore}, {mese}, {anno}\n")
+        file.close()
+    except FileNotFoundError:
+        return None
+    return foto
 
 
 def cerca_foto(album, codice):
     """Cerca una foto nell'album dato il codice"""
-    # TODO
+    for anno_album, foto_anno in album.items():
+        for foto in foto_anno:
+            if foto[0] == codice:
+                return foto
+    return None
 
 
 def elenco_foto_anno_per_titolo(album, anno):
     """Ordina i titoli delle foto di un dato anno in ordine alfabetico"""
-    # TODO
+    if anno not in album:
+        return None
+    return sorted(album[anno], key = lambda foto: foto[1])
 
 
 def main():
