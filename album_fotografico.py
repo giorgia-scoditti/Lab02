@@ -35,7 +35,7 @@ def aggiungi_foto(album, codice, titolo, autore, mese, anno, file_path):
     album[anno].append(foto)
     try:
         file = open(file_path, "a", encoding="utf-8")
-        file.write(f"{codice}, {titolo}, {autore}, {mese}, {anno}\n")
+        file.write(f"{codice},{titolo},{autore},{mese},{anno}\n")
         file.close()
     except FileNotFoundError:
         return None
