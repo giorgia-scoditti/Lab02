@@ -4,6 +4,7 @@ def cerca_elemento_anno(album, anno):
             return elemento_anno
     return None
 
+
 def carica_da_file(file_path):
     """Carica le foto dal file, creando un nuovo anno ogni volta che compare per la prima volta"""
     album = []

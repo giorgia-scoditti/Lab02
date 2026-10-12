@@ -8,11 +8,13 @@ class Foto:
     def __str__(self):
         return f"{self.codice}, {self.titolo}, {self.autore}, {self.mese}, {self.anno}"
 
+
 def cerca_elemento_anno(album, anno):
     for elemento_anno in album:
         if elemento_anno[0] == anno:
             return elemento_anno
     return None
+
 
 def carica_da_file(file_path):
     """Carica le foto dal file, creando un nuovo anno ogni volta che compare per la prima volta"""
